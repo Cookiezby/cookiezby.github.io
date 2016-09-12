@@ -70,67 +70,50 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-iOS图文混排刷新图片大小" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="<%= post.layout %>-<%= post.slug %>" class="article article-type-<%= post.layout %>" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/07/13/iOS图文混排刷新图片大小/" class="article-date">
-  <time datetime="2016-07-13T02:10:50.000Z" itemprop="datePublished">2016-07-13</time>
-</a>
-    
+    <%- partial('post/date', {class_name: 'article-date', date_format: null}) %>
+    <%- partial('post/category') %>
   </div>
   <div class="article-inner">
-    
-    
+    <%- partial('post/gallery') %>
+    <% if (post.link || post.title){ %>
       <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      iOS图文混排刷新图片大小
-    </h1>
-  
-
+        <%- partial('post/title', {class_name: 'article-title'}) %>
       </header>
-    
+    <% } %>
     <div class="article-entry" itemprop="articleBody">
-      
-        <p>昨天在写图文混排时遇到了一个问题，我的图片是从网络上下载的，所以预先不知道图片的大小，但是NSTextAttachment是需要设定大小的，所以一开始就用的placeholder图片的大小，等图片下载完成候再更新NSTextAttachment的bounds。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UIImage</span> *image = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"placeholder.png"</span>];</div><div class="line"><span class="built_in">NSTextAttachment</span> *imgAttachment = [[<span class="built_in">NSTextAttachment</span> alloc]init];</div><div class="line">imgAttachment.image = image;</div><div class="line"><span class="built_in">CGSize</span> imageSize = <span class="built_in">CGSizeMake</span>(SCREEN_WIDTH<span class="number">-10</span>, <span class="number">200</span>);</div><div class="line">    </div><div class="line">imgAttachment.bounds = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, imageSize.width, imageSize.height);</div><div class="line"><span class="built_in">NSMutableAttributedString</span> *imgAttributedString = [[<span class="built_in">NSMutableAttributedString</span> alloc]initWithAttributedString:[<span class="built_in">NSAttributedString</span> attributedStringWithAttachment:imgAttachment]];</div><div class="line">[imgAttributedString addAttributes:<span class="keyword">self</span>.tagAttributeDictionary[<span class="string">@"img"</span>] range:<span class="built_in">NSMakeRange</span>(<span class="number">0</span>, imgAttributedString.length)];</div><div class="line">[attributedString appendAttributedString:imgAttributedString];</div><div class="line"></div><div class="line"><span class="built_in">NSURL</span> *imgURL = [[<span class="built_in">NSURL</span> alloc]initWithString:[element objectForKey:<span class="string">@"src"</span>]];</div><div class="line">[_sdManager downloadImageWithURL:(<span class="built_in">NSURL</span> *)imgURL options:<span class="number">0</span> progress:^(<span class="built_in">NSInteger</span> receivedSize, <span class="built_in">NSInteger</span> expectedSize) &#123;</div><div class="line">&#125; completed:^(<span class="built_in">UIImage</span> *image, <span class="built_in">NSError</span> *error, SDImageCacheType cacheType, <span class="built_in">BOOL</span> finished, <span class="built_in">NSURL</span> *imageURL) &#123;</div><div class="line">    imgAttachment.bounds = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, SCREEN_WIDTH<span class="number">-10</span>, image.size.height/(image.size.width/(SCREEN_WIDTH<span class="number">-10</span>)));</div><div class="line">    imgAttachment.image = image;</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
-<p>但是当图片载入完成后，图片的大小还是原来的placeholder图片的大小，并没有按照设定后的大小显示,但是你如果重新退出这个ViewController再进入的话，图片神奇般的重新显示了。所以十有八九是TextView没有刷新的缘故了。如果调用textView的setNeedsLayout是没有用的，这个方法的用途是用来刷新subView的，对于TextView中的内容布局是没有影响的。</p>
-<p>所以我们要用到的是CoreText中的NSLayoutManager，先看一下我们要用到的方法</p>
-<p><font color="red">invalidateLayoutForCharacterRange:actualCharacterRange:</font><br>定义 Invalidates the layout information for the glyphs mapped to the given range of characters.<br>这个方法会调用下面的方法<br>1 imageForBounds:textContainer:characterIndex: will be called again.<br>2 attachmentBoundsForTextContainer:[…]Index: will be called again.</p>
-<p>所以调用TextView的LayoutManager的这个方法的话可以使TextAttachment的大小刷新，我们利用delegate，每当图片载入完成，调用delegate的方法去刷新textView，这样就能够让图片正常显示了。</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSURL</span> *imgURL = [[<span class="built_in">NSURL</span> alloc]initWithString:[element objectForKey:<span class="string">@"src"</span>]];</div><div class="line">[_sdManager downloadImageWithURL:(<span class="built_in">NSURL</span> *)imgURL options:<span class="number">0</span> progress:^(<span class="built_in">NSInteger</span> receivedSize, <span class="built_in">NSInteger</span> expectedSize) &#123;</div><div class="line">&#125; completed:^(<span class="built_in">UIImage</span> *image, <span class="built_in">NSError</span> *error, SDImageCacheType cacheType, <span class="built_in">BOOL</span> finished, <span class="built_in">NSURL</span> *imageURL) &#123;</div><div class="line">  imgAttachment.bounds = <span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, SCREEN_WIDTH<span class="number">-10</span>, image.size.height/(image.size.width/(SCREEN_WIDTH<span class="number">-10</span>)));</div><div class="line">  DebugLog(<span class="string">@"%f %f"</span>,imgAttachment.bounds.size.width,imgAttachment.bounds.size.height);</div><div class="line">  imgAttachment.image = image;</div><div class="line">  [<span class="keyword">self</span>.delegate refreshTextViewAtRange:range];</div><div class="line">&#125;];</div></pre></td></tr></table></figure>
-<p>参考 <a href="http://stackoverflow.com/questions/24509660/redrawing-nstextattachments-in-an-uitextview-with-attributed-text" target="_blank" rel="external">http://stackoverflow.com/questions/24509660/redrawing-nstextattachments-in-an-uitextview-with-attributed-text</a></p>
-
-      
+      <% if (post.excerpt && index){ %>
+        <%- post.excerpt %>
+        <% if (theme.excerpt_link){ %>
+          <p class="article-more-link">
+            <a href="<%- url_for(post.path) %>#more"><%= theme.excerpt_link %></a>
+          </p>
+        <% } %>
+      <% } else { %>
+        <%- post.content %>
+      <% } %>
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/13/iOS图文混排刷新图片大小/" data-id="cisyq6nfp0000afzh9spw0uf1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
-
+      <a data-url="<%- post.permalink %>" data-id="<%= post._id %>" class="article-share-link"><%= __('share') %></a>
+      <% if (post.comments && config.disqus_shortname){ %>
+        <a href="<%- post.permalink %>#disqus_thread" class="article-comment-link"><%= __('comment') %></a>
+      <% } %>
+      <%- partial('post/tag') %>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/09/11/9月苹果发布会回顾/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          9月7日苹果发布会
-        
-      </div>
-    </a>
-  
-  
-</nav>
-
-  
+  <% if (!index){ %>
+    <%- partial('post/nav') %>
+  <% } %>
 </article>
 
+<% if (!index && post.comments && config.disqus_shortname){ %>
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
 </section>
+<% } %></section>
         
           <aside id="sidebar">
   
@@ -206,6 +189,20 @@
   
 </nav>
     
+<script>
+  var disqus_shortname = 'cookiezby';
+  
+  var disqus_url = 'http://yoursite.com/2016/07/13/iOS图文混排刷新图片大小/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
