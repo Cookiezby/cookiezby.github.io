@@ -8,7 +8,10 @@
   <meta name="description" content="看了一部分Swift的语法了，记一下几个点，之后的Blog里详细回顾一下，Swift真是个神奇的语言啊，语法糖甜的快腻了。希望Swift到4.0的时候可以稳定下来，不要现在3.0刚公布，4.0的消息就到处飘了。
  Optional 
  Init
- Closure">
+ Enum
+ Closure
+ Strong Reference
+ Protocol">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Swift语法整理">
 <meta property="og:url" content="http://yoursite.com/2016/09/20/Swift语法整理/index.html">
@@ -16,14 +19,20 @@
 <meta property="og:description" content="看了一部分Swift的语法了，记一下几个点，之后的Blog里详细回顾一下，Swift真是个神奇的语言啊，语法糖甜的快腻了。希望Swift到4.0的时候可以稳定下来，不要现在3.0刚公布，4.0的消息就到处飘了。
  Optional 
  Init
- Closure">
-<meta property="og:updated_time" content="2016-09-20T14:15:17.000Z">
+ Enum
+ Closure
+ Strong Reference
+ Protocol">
+<meta property="og:updated_time" content="2016-09-25T06:17:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift语法整理">
 <meta name="twitter:description" content="看了一部分Swift的语法了，记一下几个点，之后的Blog里详细回顾一下，Swift真是个神奇的语言啊，语法糖甜的快腻了。希望Swift到4.0的时候可以稳定下来，不要现在3.0刚公布，4.0的消息就到处飘了。
  Optional 
  Init
- Closure">
+ Enum
+ Closure
+ Strong Reference
+ Protocol">
   
     <link rel="alternate" href="/atom.xml" title="Cookie&#39;s Blog" type="application/atom+xml">
   
@@ -101,12 +110,15 @@
         <p>看了一部分Swift的语法了，记一下几个点，之后的Blog里详细回顾一下，Swift真是个神奇的语言啊，语法糖甜的快腻了。希望Swift到4.0的时候可以稳定下来，不要现在3.0刚公布，4.0的消息就到处飘了。</p>
 <p><input type="checkbox" onclick="return false;" unchecked=""> Optional </p>
 <p><input type="checkbox" onclick="return false;" unchecked=""> Init</p>
+<p><input type="checkbox" onclick="return false;" unchecked=""> Enum</p>
 <p><input type="checkbox" onclick="return false;" unchecked=""> Closure</p>
+<p><input type="checkbox" onclick="return false;" unchecked=""> Strong Reference</p>
+<p><input type="checkbox" onclick="return false;" unchecked=""> Protocol</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/20/Swift语法整理/" data-id="citbkc479000080zhglo3pfjj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/09/20/Swift语法整理/" data-id="citl9ldt60000rdzhrxi4q2t9" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2016/09/20/Swift语法整理/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -118,6 +130,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2016/09/27/Swift面向协议编程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Swift面向协议编程
+        
+      </div>
+    </a>
   
   
     <a href="/2016/09/11/9月苹果发布会回顾/" id="article-nav-older" class="article-nav-link-wrap">
@@ -147,7 +168,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/硬件/">硬件</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/硬件/">硬件</a></li></ul>
     </div>
   </div>
 
@@ -157,7 +178,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/硬件/" style="font-size: 10px;">硬件</a>
+      <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/硬件/" style="font-size: 10px;">硬件</a>
     </div>
   </div>
 
@@ -177,6 +198,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/09/27/Swift面向协议编程/">Swift面向协议编程</a>
+          </li>
         
           <li>
             <a href="/2016/09/20/Swift语法整理/">Swift语法整理</a>
