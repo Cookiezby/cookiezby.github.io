@@ -89,11 +89,13 @@
       
         <p>这边随时记录下，从OC转到Swift时，所遇到的不一样的地方</p>
 <p>1 reloadData函数要在主线程中执行。不然会报错</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="type">DispatchQueue</span>.main.async &#123;</div><div class="line">    <span class="keyword">self</span>.tableView.reloadData()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>2 和Swift无关，当cell的大小随着collectionview大小变化时，先将collectionview的layout无效化，然后再更改collectionview的大小，顺序反过来的话，会导致item的高度大于collectionview的高度，不会crash但会报错。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/29/记录从OC到Swift的那些坑/" data-id="citoeh3kz0001hpzhf6ux0u3r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/09/29/记录从OC到Swift的那些坑/" data-id="ciu4zc67u00013pzhzmyji00b" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2016/09/29/记录从OC到Swift的那些坑/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -179,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/27/Swift面向协议编程/" data-id="citoeh3l70004hpzh1q83mbkg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/09/27/Swift面向协议编程/" data-id="ciu4zc68400043pzhg76edmrt" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2016/09/27/Swift面向协议编程/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -226,7 +228,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/20/Swift语法整理/" data-id="citoeh3l50003hpzhp4zwdrje" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/09/20/Swift语法整理/" data-id="ciu4zc68000033pzhan64rbpi" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2016/09/20/Swift语法整理/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -293,7 +295,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/11/9月苹果发布会回顾/" data-id="citoeh3kt0000hpzhk2o8vl5x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/09/11/9月苹果发布会回顾/" data-id="ciu4zc67p00003pzhwqzoa0mc" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2016/09/11/9月苹果发布会回顾/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -341,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/07/13/iOS图文混排刷新图片大小/" data-id="citoeh3lb0005hpzh2ppvio2z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/07/13/iOS图文混排刷新图片大小/" data-id="ciu4zc68700053pzhod2lrt2d" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2016/07/13/iOS图文混排刷新图片大小/#disqus_thread" class="article-comment-link">留言</a>
       
