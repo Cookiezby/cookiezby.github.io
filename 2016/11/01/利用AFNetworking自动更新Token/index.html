@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>利用AFNetworking自动更新Token | Cookie&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在进行API请求时，会遇到Token过期的情况，解决这个问题有几种办法，一种常用？方法是在回调里面检查是否过期，如果过期了，重新向服务器请求新的token，但这样不免显得繁琐，其实利用block可以换一种方法，今天在stackoverflow上看到的，就是重写AFURLSessionManager 中的dataTask方法
+1234567891011121314151617181920212223">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用AFNetworking自动更新Token">
+<meta property="og:url" content="http://yoursite.com/2016/11/01/利用AFNetworking自动更新Token/index.html">
+<meta property="og:site_name" content="Cookie's Blog">
+<meta property="og:description" content="在进行API请求时，会遇到Token过期的情况，解决这个问题有几种办法，一种常用？方法是在回调里面检查是否过期，如果过期了，重新向服务器请求新的token，但这样不免显得繁琐，其实利用block可以换一种方法，今天在stackoverflow上看到的，就是重写AFURLSessionManager 中的dataTask方法
+1234567891011121314151617181920212223">
+<meta property="og:updated_time" content="2016-11-01T14:40:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用AFNetworking自动更新Token">
+<meta name="twitter:description" content="在进行API请求时，会遇到Token过期的情况，解决这个问题有几种办法，一种常用？方法是在回调里面检查是否过期，如果过期了，重新向服务器请求新的token，但这样不免显得繁琐，其实利用block可以换一种方法，今天在stackoverflow上看到的，就是重写AFURLSessionManager 中的dataTask方法
+1234567891011121314151617181920212223">
+  
+    <link rel="alternate" href="/atom.xml" title="Cookie&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Cookie&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">君の名は？</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-利用AFNetworking自动更新Token" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/01/利用AFNetworking自动更新Token/" class="article-date">
+  <time datetime="2016-11-01T14:29:05.000Z" itemprop="datePublished">2016-11-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      利用AFNetworking自动更新Token
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在进行API请求时，会遇到Token过期的情况，解决这个问题有几种办法，一种常用？方法是在回调里面检查是否过期，如果过期了，重新向服务器请求新的token，但这样不免显得繁琐，其实利用block可以换一种方法，今天在stackoverflow上看到的，就是重写AFURLSessionManager 中的dataTask方法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">NSURLSessionDataTask</span> *)dataTaskWithRequest:(<span class="built_in">NSURLRequest</span> *)urlRequest completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSURLResponse</span> *response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error))originalCompletionHandler&#123;</div><div class="line"></div><div class="line">    <span class="comment">//create a completion block that wraps the original</span></div><div class="line">    <span class="keyword">void</span> (^authFailBlock)(<span class="built_in">NSURLResponse</span> *response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error) = ^(<span class="built_in">NSURLResponse</span> *response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">NSHTTPURLResponse</span>* httpResponse = (<span class="built_in">NSHTTPURLResponse</span>*)response;</div><div class="line">        <span class="keyword">if</span>([httpResponse statusCode] == <span class="number">401</span>)&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"401 auth error!"</span>);</div><div class="line">            <span class="comment">//since there was an error, call you refresh method and then redo the original task</span></div><div class="line">            <span class="built_in">dispatch_async</span>(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, <span class="number">0</span>), ^&#123;</div><div class="line"></div><div class="line">                <span class="comment">//call your method for refreshing OAuth tokens.  This is an example:</span></div><div class="line">                [<span class="keyword">self</span> refreshAccessToken:^(<span class="keyword">id</span> responseObject) &#123;</div><div class="line"></div><div class="line">                    <span class="built_in">NSLog</span>(<span class="string">@"response was %@"</span>, responseObject);</div><div class="line">                    <span class="comment">//store your new token</span></div><div class="line"></div><div class="line">                    <span class="comment">//now, queue up and execute the original task               </span></div><div class="line">                    <span class="built_in">NSURLSessionDataTask</span> *originalTask = [<span class="keyword">super</span> dataTaskWithRequest:urlRequest completionHandler:originalCompletionHandler];</div><div class="line">                    [originalTask resume];</div><div class="line">                &#125;];                    </div><div class="line">            &#125;);</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="built_in">NSLog</span>(<span class="string">@"no auth error"</span>);</div><div class="line">            originalCompletionHandler(response, responseObject, error);</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="built_in">NSURLSessionDataTask</span> *task = [<span class="keyword">super</span> dataTaskWithRequest:urlRequest completionHandler:authFailBlock];</div><div class="line"></div><div class="line">    <span class="keyword">return</span> task;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"></div></pre></td></tr></table></figure>
+<p>简单解释下就是将原来的回调block中添加一个检测response是否返回的是token过期的步骤，如果是，则再一次发送原来的请求，并利用原来的success的回调和fail的回调，这样封装完后，调用网络方法的时候就不会察觉到有自动更新token这一个步骤。</p>
+<p>原文链接：<a href="http://stackoverflow.com/questions/12893837/afnetworking-handle-error-globally-and-repeat-request" target="_blank" rel="external">http://stackoverflow.com/questions/12893837/afnetworking-handle-error-globally-and-repeat-request</a></p>
+<p>SEO: AFNetworking 自动更新Token，iOS，Objective-C， refresh token automatically</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/01/利用AFNetworking自动更新Token/" data-id="ciuzlpbkv0004pvzhdq3guotz" class="article-share-link">Share</a>
+      
+        <a href="http://yoursite.com/2016/11/01/利用AFNetworking自动更新Token/#disqus_thread" class="article-comment-link">留言</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/09/29/记录从OC到Swift的那些坑/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">记录从OC到Swift的那些坑</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/硬件/">硬件</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/硬件/" style="font-size: 10px;">硬件</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/11/01/利用AFNetworking自动更新Token/">利用AFNetworking自动更新Token</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/29/记录从OC到Swift的那些坑/">记录从OC到Swift的那些坑</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/27/Swift面向协议编程/">Swift面向协议编程</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/20/Swift语法整理/">Swift语法整理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/09/11/9月苹果发布会回顾/">9月7日苹果发布会</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 Zhu Bingyi<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'cookiezby';
+  
+  var disqus_url = 'http://yoursite.com/2016/11/01/利用AFNetworking自动更新Token/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

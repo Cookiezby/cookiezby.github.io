@@ -110,7 +110,7 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">FlappyBird</span>: <span class="title">Bird</span>, <span class="title">Flyable</span> </span>&#123;</div><div class="line">  <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">  <span class="keyword">let</span> flappyAmplitude: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> flappyFrequency: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">true</span></div><div class="line"> </div><div class="line">  <span class="keyword">var</span> airspeedVelocity: <span class="type">Double</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">3</span> * flappyFrequency * flappyAmplitude</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里定义了一个新的结构体叫做FlappyBird，他遵循了Bird和Flyable两个协议，成员变量airspeedVelocity是由flappyFrequency和flappyAmplitude两个成员相乘得到的。作为一个flappy，canFly理所当然的返回true值。</p>
 <p>下一步，添加下面的结构体定义到playground的底部：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Penguin</span>: <span class="title">Bird</span> </span>&#123;</div><div class="line">  <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SwiftBird</span>: <span class="title">Bird</span>, <span class="title">Flyable</span> </span>&#123;</div><div class="line">  <span class="keyword">var</span> name: <span class="type">String</span> &#123; <span class="keyword">return</span> <span class="string">"Swift <span class="subst">\(version)</span>"</span> &#125;</div><div class="line">  <span class="keyword">let</span> version: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">true</span></div><div class="line"> </div><div class="line">  <span class="comment">// Swift is FAST!</span></div><div class="line">  <span class="keyword">var</span> airspeedVelocity: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="number">2000.0</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Penguin</span>: <span class="title">Bird</span> </span>&#123;</div><div class="line">  <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SwiftBird</span>: <span class="title">Bird</span>, <span class="title">Flyable</span> </span>&#123;</div><div class="line">  <span class="keyword">var</span> name: <span class="type">String</span> &#123; <span class="keyword">return</span> <span class="string">"Swift \(version)"</span> &#125;</div><div class="line">  <span class="keyword">let</span> version: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">true</span></div><div class="line"> </div><div class="line">  <span class="comment">// Swift is FAST!</span></div><div class="line">  <span class="keyword">var</span> airspeedVelocity: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="number">2000.0</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>企鹅虽然是鸟类，但是他不会飞。哈哈，所以你没有选择继承机制，不然就意味着所有的鸟类都会飞了。至于雨燕，显而易见是一种具有很快飞行速度的鸟类。</p>
 <p>到这里你可能看到一些冗余，每种遵循Bird协议的类型都需要声明他canFlay的值。尽管这里已经有一个Flyable的协议了。</p>
 <h2 id="Extending-Protocols-With-Default-Implementations"><a href="#Extending-Protocols-With-Default-Implementations" class="headerlink" title="Extending Protocols With Default Implementations"></a>Extending Protocols With Default Implementations</h2><p>通过协议扩展，你能够定义协议的默认行为，将下面的代码添加到Bird协议定义的下面</p>
@@ -147,7 +147,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/09/27/Swift面向协议编程/" data-id="ciu4zc68400043pzhg76edmrt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/09/27/Swift面向协议编程/" data-id="ciuzlpbky0005pvzhk48wt1c6" class="article-share-link">Share</a>
       
         <a href="http://yoursite.com/2016/09/27/Swift面向协议编程/#disqus_thread" class="article-comment-link">留言</a>
       
@@ -207,7 +207,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/硬件/" style="font-size: 10px;">硬件</a>
+      <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/swift/" style="font-size: 10px;">swift</a> <a href="/tags/硬件/" style="font-size: 10px;">硬件</a>
     </div>
   </div>
 
@@ -216,7 +216,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li></ul>
     </div>
   </div>
 
@@ -227,6 +227,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/11/01/利用AFNetworking自动更新Token/">利用AFNetworking自动更新Token</a>
+          </li>
         
           <li>
             <a href="/2016/09/29/记录从OC到Swift的那些坑/">记录从OC到Swift的那些坑</a>
@@ -242,10 +246,6 @@
         
           <li>
             <a href="/2016/09/11/9月苹果发布会回顾/">9月7日苹果发布会</a>
-          </li>
-        
-          <li>
-            <a href="/2016/07/13/iOS图文混排刷新图片大小/">iOS图文混排刷新图片大小</a>
           </li>
         
       </ul>
