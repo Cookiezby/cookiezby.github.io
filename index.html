@@ -135,6 +135,60 @@
       <div class="body-wrap">
         
   
+    <article id="post-代码简洁之循环和逻辑简单化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/07/代码简洁之循环和逻辑简单化/">代码简洁之循环和逻辑简单化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>From: The Art of Readable Code</p>
+<h2 id="Chapter-7"><a href="#Chapter-7" class="headerlink" title="Chapter 7"></a>Chapter 7</h2><p>1）if条件中不变的值要放在右边。至于为了防止==号误写为=导致赋值的情况下，有把不变量写在左边的方式，也还是建议将不变量写在右边，因为利于理解</p>
+<p>2）if/else 处理条件有先后，一般来说是，肯定型，瞩目的部分放在前面，简单不起眼的部分放在后面</p>
+<p>3）慎用三元运算符，不用do while， goto等语句</p>
+<p>4）if/else多重嵌套的情况，尽量转换成单一的if/else</p>
+<h2 id="Chapter-8"><a href="#Chapter-8" class="headerlink" title="Chapter 8"></a>Chapter 8</h2><p>1）将很长的式子分解为短小的式子，或者利用define将重复的代码，转换成具有语义的词。</p>
+<p>2）if条件中逻辑判断条件不要超过两行。 如果超过两行了，从反面来考虑下逻辑判断该怎么写</p>
+<h2 id="Chapter-9"><a href="#Chapter-9" class="headerlink" title="Chapter 9"></a>Chapter 9</h2><p>1）不需要的中间变量能删除的就删除</p>
+<p>2）尽量使用局部变量，避免变量被使用域外的语句访问</p>
+<p>3）根据具体情况使用静态变量，防止某些变量在之后的代码中被无意更改</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/07/代码简洁之循环和逻辑简单化/" class="archive-article-date">
+  	<time datetime="2016-11-07T08:41:37.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-07</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-利用AFNetworking自动更新Token" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -270,7 +324,7 @@
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">FlappyBird</span>: <span class="title">Bird</span>, <span class="title">Flyable</span> </span>&#123;</div><div class="line">  <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">  <span class="keyword">let</span> flappyAmplitude: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> flappyFrequency: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">true</span></div><div class="line"> </div><div class="line">  <span class="keyword">var</span> airspeedVelocity: <span class="type">Double</span> &#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">3</span> * flappyFrequency * flappyAmplitude</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里定义了一个新的结构体叫做FlappyBird，他遵循了Bird和Flyable两个协议，成员变量airspeedVelocity是由flappyFrequency和flappyAmplitude两个成员相乘得到的。作为一个flappy，canFly理所当然的返回true值。</p>
 <p>下一步，添加下面的结构体定义到playground的底部：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Penguin</span>: <span class="title">Bird</span> </span>&#123;</div><div class="line">  <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SwiftBird</span>: <span class="title">Bird</span>, <span class="title">Flyable</span> </span>&#123;</div><div class="line">  <span class="keyword">var</span> name: <span class="type">String</span> &#123; <span class="keyword">return</span> <span class="string">"Swift \(version)"</span> &#125;</div><div class="line">  <span class="keyword">let</span> version: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">true</span></div><div class="line"> </div><div class="line">  <span class="comment">// Swift is FAST!</span></div><div class="line">  <span class="keyword">var</span> airspeedVelocity: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="number">2000.0</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Penguin</span>: <span class="title">Bird</span> </span>&#123;</div><div class="line">  <span class="keyword">let</span> name: <span class="type">String</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">false</span></div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">SwiftBird</span>: <span class="title">Bird</span>, <span class="title">Flyable</span> </span>&#123;</div><div class="line">  <span class="keyword">var</span> name: <span class="type">String</span> &#123; <span class="keyword">return</span> <span class="string">"Swift <span class="subst">\(version)</span>"</span> &#125;</div><div class="line">  <span class="keyword">let</span> version: <span class="type">Double</span></div><div class="line">  <span class="keyword">let</span> canFly = <span class="literal">true</span></div><div class="line"> </div><div class="line">  <span class="comment">// Swift is FAST!</span></div><div class="line">  <span class="keyword">var</span> airspeedVelocity: <span class="type">Double</span> &#123; <span class="keyword">return</span> <span class="number">2000.0</span> &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>企鹅虽然是鸟类，但是他不会飞。哈哈，所以你没有选择继承机制，不然就意味着所有的鸟类都会飞了。至于雨燕，显而易见是一种具有很快飞行速度的鸟类。</p>
 <p>到这里你可能看到一些冗余，每种遵循Bird协议的类型都需要声明他canFlay的值。尽管这里已经有一个Flyable的协议了。</p>
 <h2 id="Extending-Protocols-With-Default-Implementations"><a href="#Extending-Protocols-With-Default-Implementations" class="headerlink" title="Extending Protocols With Default Implementations"></a>Extending Protocols With Default Implementations</h2><p>通过协议扩展，你能够定义协议的默认行为，将下面的代码添加到Bird协议定义的下面</p>
@@ -613,8 +667,6 @@
 
     
     	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">苟利国家生死以，岂因祸福趋避之。口。口</div>
   	  	
     	</section>
     
