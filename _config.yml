@@ -19,7 +19,7 @@ author: zhu bingyi
 description: >- # this means to ignore newlines until "baseurl:"
   Nothing can replace hard work
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://cookiezby.com" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://cookiezby.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: cookiezhubingyi
 github_username:  Cookiezby
 
