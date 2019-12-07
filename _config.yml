@@ -25,7 +25,7 @@ github_username:  Cookiezby
 
 # Build settings
 markdown: kramdown
-theme: moving
+remote_theme: huangyz0918/moving
 moving:
   avatar_url: "https://scontent-nrt1-1.xx.fbcdn.net/v/t1.0-9/29542438_1658262547605713_8812475228787911200_n.jpg?_nc_cat=110&_nc_ohc=7CoG5lykwnQAQnWwGa2zkuguKpv4C_YquR8v4Tak3mTd3_8GecZPRcQRw&_nc_ht=scontent-nrt1-1.xx&oh=c9fe3320d586022bf8da961010e81c28&oe=5E7923C7" # avatar in about page
   about_you: iOS Developer in Japan. # short description about you in about page
