@@ -1,0 +1,1 @@
+sed "s/remote_theme/theme/g" _config.yml
